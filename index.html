@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wolf Website</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c2461, #1e3799);
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #f39c12;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #f39c12;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .logo span {
+            color: #fff;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            background: #f39c12;
+            color: #000;
+            transform: translateY(-2px);
+        }
+        
+        .nav-links a.active {
+            background: #f39c12;
+            color: #000;
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .section h2 {
+            color: #f39c12;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #f39c12;
+            padding-bottom: 0.5rem;
+        }
+        
+        /* Home Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1519150268069-c094cfc0b3c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #f39c12;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #ddd;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .feature-card i {
+            font-size: 2.5rem;
+            color: #f39c12;
+            margin-bottom: 1rem;
+        }
+        
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text {
+            padding-right: 2rem;
+        }
+        
+        .about-text p {
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        /* Content Section */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .content-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background: rgba(243, 156, 18, 0.2);
+            padding: 1rem;
+            border-bottom: 2px solid #f39c12;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+            height: 250px;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            margin-top: 3rem;
+            border-top: 2px solid #f39c12;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-text {
+                padding-right: 0;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">WOLF<span>.COM</span></div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+                <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+                <li><a href="#content" class="nav-link" data-section="content">Content</a></li>
+                <li><a href="#gallery" class="nav-link" data-section="gallery">Gallery</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1>Welcome to Wolf World</h1>
+                <p>Discover the fascinating world of wolves - their behavior, habitat, and importance in our ecosystem.</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-paw"></i>
+                    <h3>Wolf Species</h3>
+                    <p>Learn about different wolf species from around the world</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mountain"></i>
+                    <h3>Habitat</h3>
+                    <p>Explore the diverse habitats where wolves thrive</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Pack Behavior</h3>
+                    <p>Understand the complex social structure of wolf packs</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Conservation</h3>
+                    <p>Discover efforts to protect and preserve wolf populations</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <h2>About Wolves</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Wolves are magnificent creatures that have captured human imagination for centuries. As apex predators, they play a crucial role in maintaining healthy ecosystems by controlling prey populations and preventing overgrazing.</p>
+                    <p>There are several species of wolves, including the Gray Wolf (Canis lupus), Red Wolf (Canis rufus), and Ethiopian Wolf (Canis simensis). Each species has adapted to its specific environment, from the Arctic tundra to the Ethiopian highlands.</p>
+                    <p>Wolf packs are complex social structures led by an alpha pair. The pack works together to hunt, raise pups, and defend their territory. Communication occurs through vocalizations, body language, and scent marking.</p>
+                    <p>Despite their importance, wolf populations have faced significant threats from habitat loss, hunting, and misconceptions about their nature. Conservation efforts continue to work toward their protection and recovery.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1547407139-3c921a66005c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Wolf in nature">
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Section -->
+        <section id="content" class="section">
+            <h2>Wolf Information</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bone"></i> Diet & Hunting</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Wolves are carnivores that primarily hunt large ungulates like deer, elk, and moose. A single wolf can eat up to 20 pounds of meat in one meal.</p>
+                        <p>Hunting strategies vary based on prey and terrain, often involving coordinated pack efforts to isolate vulnerable individuals from herds.</p>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-home"></i> Habitat & Range</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Wolves are found across North America, Europe, Asia, and parts of Africa. They inhabit diverse environments including forests, tundra, mountains, and grasslands.</p>
+                        <p>Territory sizes vary from 50 to 1,000 square miles depending on prey density, with packs patrolling and defending their boundaries regularly.</p>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-volume-up"></i> Communication</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Wolves communicate through howls, barks, whines, and growls. Howling helps pack members locate each other and warns other packs to stay away.</p>
+                        <p>Body language includes tail position, ear orientation, and facial expressions. Scent marking is used to establish territory boundaries.</p>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-heart"></i> Reproduction</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Only the alpha pair typically breeds, with mating occurring in late winter. After a 63-day gestation period, 4-6 pups are born in spring.</p>
+                        <p>All pack members help raise the pups, bringing them food and teaching them hunting skills. Pups reach maturity at about 2 years of age.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="section">
+            <h2>Wolf Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1547407139-3c921a66005c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Wolf portrait">
+                    <div class="gallery-overlay">
+                        <h4>Gray Wolf</h4>
+                        <p>Majestic wolf in its natural habitat</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1519150268069-c094cfc0b3c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Wolf pack">
+                    <div class="gallery-overlay">
+                        <h4>Wolf Pack</h4>
+                        <p>Family unit traveling together</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1574870111867-089858b7ce52?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Arctic wolf">
+                    <div class="gallery-overlay">
+                        <h4>Arctic Wolf</h4>
+                        <p>White wolf in snowy environment</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1599236449652-f2a5d0a5df56?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Howling wolf">
+                    <div class="gallery-overlay">
+                        <h4>Howling Wolf</h4>
+                        <p>Communicating with the pack</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1573148164250-f2e01c4c6f82?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Wolf pups">
+                    <div class="gallery-overlay">
+                        <h4>Wolf Pups</h4>
+                        <p>Young wolves playing</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1590418606746-018840f9cd0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Running wolf">
+                    <div class="gallery-overlay">
+                        <h4>Running Wolf</h4>
+                        <p>Wolf in motion during hunt</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Wolf Website. All rights reserved.</p>
+        <p>Educational website about wolves and their conservation</p>
+    </footer>
+
+    <script>
+        // Navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            
+            // Set first section as active on load
+            sections[0].classList.add('active');
+            
+            // Navigation click handler
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and sections
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const sectionId = this.getAttribute('data-section');
+                    document.getElementById(sectionId).classList.add('active');
+                    
+                    // Smooth scroll to section
+                    document.getElementById(sectionId).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                });
+            });
+            
+            // Gallery image click handler (optional enhancement)
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const imgSrc = this.querySelector('img').src;
+                    const imgAlt = this.querySelector('img').alt;
+                    
+                    // Create modal for larger image view
+                    const modal = document.createElement('div');
+                    modal.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0,0,0,0.9);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        z-index: 2000;
+                        cursor: pointer;
+                    `;
+                    
+                    const modalImg = document.createElement('img');
+                    modalImg.src = imgSrc;
+                    modalImg.alt = imgAlt;
+                    modalImg.style.cssText = `
+                        max-width: 90%;
+                        max-height: 90%;
+                        border-radius: 10px;
+                        box-shadow: 0 0 30px rgba(243, 156, 18, 0.3);
+                    `;
+                    
+                    modal.appendChild(modalImg);
+                    document.body.appendChild(modal);
+                    
+                    // Close modal on click
+                    modal.addEventListener('click', function() {
+                        document.body.removeChild(modal);
+                    });
+                    
+                    // Close modal on ESC key
+                    document.addEventListener('keydown', function closeModal(e) {
+                        if (e.key === 'Escape') {
+                            document.body.removeChild(modal);
+                            document.removeEventListener('keydown', closeModal);
+                        }
+                    });
+                });
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    if(this.getAttribute('href') !== '#') {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href').substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        if(targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Add animation to elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeIn 0.8s ease forwards';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all section content
+            document.querySelectorAll('.feature-card, .content-card, .gallery-item').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
